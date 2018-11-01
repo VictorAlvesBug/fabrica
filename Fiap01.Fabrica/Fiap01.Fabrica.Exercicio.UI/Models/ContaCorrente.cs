@@ -12,16 +12,11 @@ namespace Fiap.Banco.Model
     {
         public TipoConta Tipo { get; set; }
 
-        public override void Depositar(decimal valor)
-        {
-            Saldo += valor;
-        }
-
         public override void Retirar(decimal valor)
         {
             if (Tipo == TipoConta.Comum && Saldo-valor < 0)
             {
-                throw new SaldoInsuficienteException();
+                throw new SaldoInsuficienteException("Saldo insuficiente");
             }
             Saldo -= valor;
         }

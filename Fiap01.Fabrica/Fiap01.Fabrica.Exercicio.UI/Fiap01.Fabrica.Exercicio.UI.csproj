@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Models\Conta.cs" />
     <Compile Include="Models\ContaCorrente.cs" />
+    <Compile Include="Models\ContaPoupanca.cs" />
     <Compile Include="Models\IContaInvestimento.cs" />
     <Compile Include="Exceptions\SaldoInsuficienteException.cs" />
     <Compile Include="Models\TipoConta.cs" />

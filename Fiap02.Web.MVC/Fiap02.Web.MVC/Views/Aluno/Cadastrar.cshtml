@@ -1,0 +1,45 @@
+﻿@model Fiap02.Web.MVC.Models.Aluno
+
+@{
+    ViewBag.Title = "Cadastrar";
+}
+
+<h2>Cadastrar</h2>
+
+<form action="/aluno/cadastrar" method="post">
+    <div class="form-group">
+        <label for="id-nome">Nome</label>
+        <input placeholder="Digite seu nome" class="form-control" type="text" name="nome" id="id-nome" />
+    </div>
+    <div class="form-group">        
+        <label for="id-curso">Curso</label>
+        <select class="form-control" name="curso" id="id-curso">
+            <option>Selecione</option>    
+            <option value="EC">Engenharia da Computação</option>       
+            <option value="SI">Sistema de Informação</option>
+            <option value="ADM">Administração</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <input type="radio" name="periodo" value="Diurno" id="id-diurno" />
+        <label for="id-diurno">Diurno</label>
+        <input type="radio" name="periodo" value="Noturno" id="id-noturno">
+        <label for="id-noturno">Noturno</label>
+    </div>
+    <div class="form-group">
+        <input type="checkbox" name="funcionario" id="id-func" />
+        <label for="id-func">Funcionário</label>
+    </div>
+    <div class="form-group">
+        <label for="id-desc">Descrição</label>
+        <textarea class="form-control" id="id-desc" name="descricao"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Cadastrar</button>
+</form>
+
+<div>
+    <div>@TempData["msg"]</div>
+    <p>@ViewBag.nome</p>
+    <p>@Model.Curso, @Model.Funcionario,
+    @Model.Periodo, @Model.Descricao</p>
+</div>
