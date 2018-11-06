@@ -1,0 +1,35 @@
+﻿@model IList<Fiap03.Web.MVC.Models.CarroModel>
+
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Listar</h2>
+
+@Html.ActionLink("Cadastrar","Cadastrar")
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marca</th>
+            <th>Ano</th>
+            <th>Esportivo</th>
+            <th>Placa</th>
+            <th>Descrição</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var carro in Model)
+        {
+            <tr>
+                <td>@carro.Marca</td>
+                <td>@carro.Ano</td>
+                <td>@carro.Esportivo</td>
+                <td>@carro.Placa</td>
+                <td>@carro.Descricao</td>
+                <td>@carro.Combustivel</td>
+            </tr>
+        }
+    </tbody>
+</table>
