@@ -1,7 +1,7 @@
 ﻿@model Fiap03.Web.MVC.Models.CarroModel
 
 @{
-    ViewBag.Title = "Cadastrar";
+    ViewBag.Title = "Cadastrar";    
 }
 
 <h2>Cadastrar</h2>
@@ -48,4 +48,8 @@
     @Fabrica.Botao("Cadastrar")
     @Html.ActionLink("Listar","Listar",
         null, new { @class = "btn btn-default"})
+}
+
+@section scripts{
+    <p>Exemplo de Section</p>
 }

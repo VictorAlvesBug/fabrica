@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Dapper;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Fiap03.Web.MVC.Controllers
 {
@@ -17,7 +21,7 @@ namespace Fiap03.Web.MVC.Controllers
 
         [HttpGet]
         public ActionResult Cadastrar()
-        {            
+        {
             ViewBag.marcas = new SelectList(_marcas);
             return View();
         }
@@ -25,7 +29,18 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
-            _carros.Add(carro); //adiciona o carro na lista
+            using (IDbConnection db = new SqlConnection(
+                ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
+            {
+                var sql = @"INSERT INTO Carro (Marca, Ano, 
+                    Esportivo, Placa, Combustivel, Descricao) 
+                    VALUES (@Marca, @Ano, @Esportivo, @Placa, @Combustivel,
+                    @Descricao); SELECT CAST(SCOPE_IDENTITY() as int);";
+
+                int codigo = db.Query<int>(sql, carro).Single();
+            }
+
+            // _carros.Add(carro); //adiciona o carro na lista
             TempData["mensagem"] = "Carro registrado!";
             //Redireciona para uma URL, cria uma segunda request
             //para abrir a página de resposta
