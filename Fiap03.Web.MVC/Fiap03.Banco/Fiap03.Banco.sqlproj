@@ -60,5 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Carro.sql" />
+    <Build Include="Marca.sql" />
   </ItemGroup>
 </Project>

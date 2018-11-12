@@ -1,0 +1,33 @@
+﻿@model IList<Fiap03.Web.MVC.Models.MarcaModel>
+
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Marcas</h2>
+
+@Fabrica.Mensagem(TempData["msg"])
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>CNPJ</th>
+            <th>Data Criação</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var marca in Model)
+        {
+            <tr>
+                <td>@marca.Id</td>
+                <td>@marca.Nome</td>
+                <td>@marca.Cnpj</td>
+                <td>@marca.DataCriacao</td>
+                <td>@Html.ActionLink("Editar", "Editar", new { id = marca.Id }, new { @class = "btn btn-outline-primary btn-sm" })</td>
+            </tr>
+        }
+    </tbody>
+</table>

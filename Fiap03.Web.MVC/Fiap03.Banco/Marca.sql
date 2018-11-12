@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[Marca]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [Nome] NVARCHAR(50) NOT NULL, 
+    [Cnpj] NVARCHAR(20) NOT NULL, 
+    [DataCriacao] DATETIME2 NOT NULL
+	
+)
