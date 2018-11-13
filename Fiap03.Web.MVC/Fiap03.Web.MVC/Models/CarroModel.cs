@@ -9,7 +9,8 @@ namespace Fiap03.Web.MVC.Models
     public class CarroModel
     {
         public int Id { get; set; }
-        public string Marca { get; set; }
+        //FK
+        public int MarcaId { get; set; }
         public int Ano { get; set; }
         public bool Esportivo { get; set; }
         public string Placa { get; set; }
@@ -19,5 +20,10 @@ namespace Fiap03.Web.MVC.Models
 
         [Display(Name = "Combustível")]
         public Combustivel? Combustivel { get; set; }
+
+        //FK         
+        public DocumentoModel Documento { get; set; }
+        public int Renavam { get; set; }
+        
     }
 }

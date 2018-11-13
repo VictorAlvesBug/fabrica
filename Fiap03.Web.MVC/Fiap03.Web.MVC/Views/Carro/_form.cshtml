@@ -1,0 +1,53 @@
+﻿@model Fiap03.Web.MVC.Models.CarroModel
+
+<div class="row">
+    <div class="col">
+        <h3>Carro</h3>
+        <div class="form-group">
+            @Html.LabelFor(c => c.MarcaId)
+            @Html.DropDownListFor(c => c.MarcaId,
+                ViewBag.marcas as SelectList,
+                "Selecione",
+                new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.Combustivel)
+            @Html.EnumDropDownListFor(c => c.Combustivel,
+                "Selecione",
+                new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.Ano)
+            @Html.TextBoxFor(c => c.Ano, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(carro => carro.Placa)
+            @Html.TextBoxFor(c => c.Placa,
+                new { placeholder = "Digite a placa",
+                      @class = "form-control"})
+        </div>
+        <div class="form-group">
+            @Html.CheckBoxFor(c => c.Esportivo)
+            @Html.LabelFor(c => c.Esportivo)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(c => c.Descricao)
+            @Html.TextAreaFor(c => c.Descricao, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col">
+        <h3>Documento</h3>
+        <div class="form-group">
+            @Html.LabelFor(d => d.Documento.Renavam)
+            @Html.TextBoxFor(d => d.Documento.Renavam, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(d => d.Documento.DataFabricacao)
+            @Html.TextBoxFor(d => d.Documento.DataFabricacao, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(d => d.Documento.Categoria)
+            @Html.EnumDropDownListFor(d => d.Documento.Categoria, "Selecione", new { @class = "form-control" })
+        </div>
+    </div>
+</div>

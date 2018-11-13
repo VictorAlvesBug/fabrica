@@ -50,6 +50,7 @@
       <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -153,7 +154,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CarroModel.cs" />
+    <Compile Include="Models\Categoria.cs" />
     <Compile Include="Models\Combustivel.cs" />
+    <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\MarcaModel.cs" />
     <Compile Include="MOD\CarroMOD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -179,6 +182,7 @@
     <Content Include="Views\Marca\Cadastrar.cshtml" />
     <Content Include="Views\Marca\Listar.cshtml" />
     <Content Include="Views\Marca\Editar.cshtml" />
+    <Content Include="Views\Carro\_form.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

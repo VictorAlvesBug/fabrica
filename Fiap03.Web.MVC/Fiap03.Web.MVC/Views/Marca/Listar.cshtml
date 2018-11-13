@@ -21,13 +21,16 @@
     <tbody>
         @foreach (var marca in Model)
         {
-            <tr>
-                <td>@marca.Id</td>
-                <td>@marca.Nome</td>
-                <td>@marca.Cnpj</td>
-                <td>@marca.DataCriacao</td>
-                <td>@Html.ActionLink("Editar", "Editar", new { id = marca.Id }, new { @class = "btn btn-outline-primary btn-sm" })</td>
-            </tr>
+        <tr>
+            <td>@marca.Id</td>
+            <td>@marca.Nome</td>
+            <td>@marca.Cnpj</td>
+            <td>@marca.DataCriacao</td>
+            <td>
+                @Html.ActionLink("Editar", "Editar", new { id = marca.Id }, new { @class = "btn btn-outline-primary btn-sm" })
+                        @Html.ActionLink("Carros", "Detalhar", new { id = marca.Id }, new { @class = "btn btn-outline-info btn-sm" })
+                    </td>
+        </tr>
         }
     </tbody>
 </table>
