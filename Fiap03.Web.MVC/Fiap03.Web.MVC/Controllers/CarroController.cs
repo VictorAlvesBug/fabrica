@@ -29,11 +29,19 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCarros"].ConnectionString))
             {
-                //Pesquisa no banco de dados
-                var sql = "SELECT * FROM Carro WHERE Ano = @Ano or 0 = @Ano";
-                var lista = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
-                //Retornar para a página de Listar enviando a lista de carros
+                var sql = @"SELECT * FROM Carro AS c INNER JOIN 
+                           Documento AS d ON c.Renavam = d.Renavam WHERE c.Ano = @Ano or 0 = @Ano";
+                var lista = db
+                    .Query<CarroModel, DocumentoModel, CarroModel>(sql,
+                        (carro, doc) => { carro.Documento = doc; return carro; }, new { Ano = ano },
+                        splitOn: "Renavam, Renavam").ToList();
                 return View("Listar", lista);
+
+                ////Pesquisa no banco de dados
+                //var sql = "SELECT * FROM Carro WHERE Ano = @Ano or 0 = @Ano";
+                //var lista = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
+                ////Retornar para a página de Listar enviando a lista de carros
+                //return View("Listar", lista);
             }
         }
 
@@ -43,12 +51,21 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
             {
-                //Buscar o carro no banco pelo id
-                var sql = "SELECT * FROM Carro where Id = @Id";
-                var carro = db.Query<CarroModel>(sql, new { Id = id }).FirstOrDefault();
                 CarregarMarcas();
-                //Mandar o carro para a view
-                return View(carro);
+                var sql = @"SELECT * FROM Carro AS c INNER JOIN 
+                           Documento AS d ON c.Renavam = d.Renavam WHERE c.Id = @Id";
+                var c = db
+                    .Query<CarroModel, DocumentoModel, CarroModel>(sql,
+                        (carro, doc) => { carro.Documento = doc; return carro; }, new { Id = id },
+                        splitOn: "Renavam, Renavam").FirstOrDefault();
+                return View(c);
+
+                ////Buscar o carro no banco pelo id
+                //var sql = "SELECT * FROM Carro where Id = @Id";
+                //var carro = db.Query<CarroModel>(sql, new { Id = id }).FirstOrDefault();
+                //CarregarMarcas();
+                ////Mandar o carro para a view
+                //return View(carro);
             }
         }
 
@@ -78,13 +95,36 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
             {
-                var sql = @"UPDATE Carro SET MarcaId = @MarcaId, 
-                    Ano = @Ano, Esportivo = @Esportivo, Placa = @Placa, 
-                    Combustivel = @Combustivel, Descricao = @Descricao 
-                    WHERE Id = @Id";
-                db.Execute(sql, model);
-                TempData["msg"] = "Atualizado com sucesso!";
-                return RedirectToAction("Listar");
+                using (var txtScope = new TransactionScope())
+                {
+                    //Cadastra o documento
+                    var sqlDoc = @"UPDATE Documento SET DataFabricacao = @DataFabricacao, Categoria = @Categoria
+                        WHERE Renavam = @Renavam";
+
+                    db.Execute(sqlDoc, model.Documento);
+
+                    //Cadastra o carro
+                    var sql = @"UPDATE Carro SET MarcaId = @MarcaId, 
+                        Ano = @Ano, Esportivo = @Esportivo, Placa = @Placa, 
+                        Combustivel = @Combustivel, Descricao = @Descricao 
+                        WHERE Id = @Id";
+
+                    db.Execute(sql, model);
+
+                    //Completa a transação
+                    txtScope.Complete();
+
+                    TempData["msg"] = "Atualizado com sucesso!";
+                    return RedirectToAction("Listar");
+                }
+
+                //var sql = @"UPDATE Carro SET MarcaId = @MarcaId, 
+                //    Ano = @Ano, Esportivo = @Esportivo, Placa = @Placa, 
+                //    Combustivel = @Combustivel, Descricao = @Descricao 
+                //    WHERE Id = @Id";
+                //db.Execute(sql, model);
+                //TempData["msg"] = "Atualizado com sucesso!";
+                //return RedirectToAction("Listar");
             }
         }
 

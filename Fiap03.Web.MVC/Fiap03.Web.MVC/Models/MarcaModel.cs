@@ -14,5 +14,7 @@ namespace Fiap03.Web.MVC.Models
         public string Nome { get; set; }
         public DateTime DataCriacao { get; set; }
         public string Cnpj { get; set; }
+
+        public IList<CarroModel> Carros { get; set; }
     }
 }

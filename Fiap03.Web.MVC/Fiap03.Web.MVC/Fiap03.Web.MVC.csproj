@@ -183,6 +183,7 @@
     <Content Include="Views\Marca\Listar.cshtml" />
     <Content Include="Views\Marca\Editar.cshtml" />
     <Content Include="Views\Carro\_form.cshtml" />
+    <Content Include="Views\Marca\Detalhar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

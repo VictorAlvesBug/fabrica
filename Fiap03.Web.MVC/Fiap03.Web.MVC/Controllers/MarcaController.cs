@@ -14,6 +14,27 @@ namespace Fiap03.Web.MVC.Controllers
     public class MarcaController : Controller
     {
         [HttpGet]
+        public ActionResult Detalhar(int id)
+        {
+            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCarros"].ConnectionString))
+            {
+                var sql = @"SELECT * FROM Marca WHERE Id = @Id;
+                    SELECT * FROM Carro WHERE MarcaId = @Id";
+                using (var results = db.QueryMultiple(sql, new { id }))
+                {
+                    var marca = results.Read<MarcaModel>().SingleOrDefault();
+                    var carros = results.Read<CarroModel>().ToList();
+                    if (marca != null && carros != null)
+                    {
+                        marca.Carros = carros;
+                    }
+
+                    return View(marca);
+                }
+            }
+        }
+
+        [HttpGet]
         public ActionResult Cadastrar()
         {
             return View();
@@ -53,7 +74,7 @@ namespace Fiap03.Web.MVC.Controllers
                 return View(marca);
             }
         }
-        
+
 
         [HttpPost]
         public ActionResult Editar(MarcaModel marca)
