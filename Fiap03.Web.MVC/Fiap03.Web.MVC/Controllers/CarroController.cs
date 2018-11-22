@@ -9,7 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Transactions;
-using Fiap03.DAL.ConnectionFactory;
+using Fiap03.DAL.ConnectionFactories;
 
 namespace Fiap03.Web.MVC.Controllers
 {
@@ -30,6 +30,7 @@ namespace Fiap03.Web.MVC.Controllers
         {
             using (IDbConnection db = ConnectionFactory.GetConnection())
             {
+
                 //Pesquisa no banco de dados
                 var sql = @"SELECT * FROM Carro AS c INNER JOIN 
                            Documento AS d ON c.Renavam = d.Renavam WHERE c.Ano = @Ano or 0 = @Ano";
@@ -38,7 +39,14 @@ namespace Fiap03.Web.MVC.Controllers
                         new { Ano = ano },
                         splitOn: "Renavam, Renavam").ToList();
                 //Retornar para a página de Listar enviando a lista de carros
+
                 return View("Listar", lista);
+
+                ////Pesquisa no banco de dados
+                //var sql = "SELECT * FROM Carro WHERE Ano = @Ano or 0 = @Ano";
+                //var lista = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
+                ////Retornar para a página de Listar enviando a lista de carros
+                //return View("Listar", lista);
             }
         }
 
@@ -54,9 +62,14 @@ namespace Fiap03.Web.MVC.Controllers
                 var carro = db.Query<CarroModel,DocumentoModel,CarroModel>(sql, 
                     (c,doc)=> { c.Documento = doc; return c; },
                     new { Id = id }, splitOn: "Renavam,Renavam").FirstOrDefault();
-                CarregarMarcas();
-                //Mandar o carro para a view
-                return View(carro);
+
+
+                ////Buscar o carro no banco pelo id
+                //var sql = "SELECT * FROM Carro where Id = @Id";
+                //var carro = db.Query<CarroModel>(sql, new { Id = id }).FirstOrDefault();
+                //CarregarMarcas();
+                ////Mandar o carro para a view
+               return View(carro);
             }
         }
 
@@ -87,18 +100,22 @@ namespace Fiap03.Web.MVC.Controllers
             {
                 using (var txtScope = new TransactionScope())
                 {
-                    var sqlDoc = @"UPDATE Documento SET Categoria = @Categoria,
-                    DataFabricacao = @DataFabricacao WHERE Renavam = @Renavam";
+
+                    //Cadastra o documento
+                    var sqlDoc = @"UPDATE Documento SET DataFabricacao = @DataFabricacao, Categoria = @Categoria
+                        WHERE Renavam = @Renavam";
 
                     db.Execute(sqlDoc, model.Documento);
 
+                    //Cadastra o carro
                     var sql = @"UPDATE Carro SET MarcaId = @MarcaId, 
-                    Ano = @Ano, Esportivo = @Esportivo, Placa = @Placa, 
-                    Combustivel = @Combustivel, Descricao = @Descricao 
-                    WHERE Id = @Id";
+                        Ano = @Ano, Esportivo = @Esportivo, Placa = @Placa, 
+                        Combustivel = @Combustivel, Descricao = @Descricao 
+                        WHERE Id = @Id";
 
                     db.Execute(sql, model);
 
+                    //Completa a transação
                     txtScope.Complete();
 
                     TempData["msg"] = "Atualizado com sucesso!";

@@ -41,6 +41,7 @@
             @Html.LabelFor(d => d.Documento.Renavam)
             @if (Model == null)
             {
+<<<<<<< HEAD
                 @Html.TextBoxFor(d => d.Documento.Renavam, 
                     new { @class = "form-control"})
             }
@@ -48,6 +49,13 @@
             {
                 @Html.TextBoxFor(d => d.Documento.Renavam, 
                     new { @class = "form-control", @readonly = "readonly" })
+=======
+                @Html.TextBoxFor(d => d.Documento.Renavam, new { @class = "form-control" })
+            }
+            else
+            {
+                @Html.TextBoxFor(d => d.Documento.Renavam, new { @class = "form-control", @readonly = "readonly" })
+>>>>>>> 2a81f5c163ed73add6bd2632c331321da034bdb8
             }
         </div>
         <div class="form-group">

@@ -18,6 +18,7 @@ namespace Fiap03.Web.MVC.Models
 
         public IList<CarroModel> Carros { get; set; }
 
+
         public MarcaModel(MarcaMOD mod)
         {
             Nome = mod.Nome;
@@ -34,5 +35,6 @@ namespace Fiap03.Web.MVC.Models
         }
 
         public MarcaModel() { }
+
     }
 }

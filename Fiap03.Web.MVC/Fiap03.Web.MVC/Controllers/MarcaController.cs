@@ -23,7 +23,7 @@ namespace Fiap03.Web.MVC.Controllers
             //pesquisa a marca com os carros no BD
             var mod = _marcaRepository.BuscarComCarros(id);
             //transformar o mod em model
-
+            return View();
         }
 
         [HttpGet]
