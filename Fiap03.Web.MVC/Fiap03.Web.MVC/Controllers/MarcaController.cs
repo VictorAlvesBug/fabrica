@@ -8,11 +8,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Dapper;
+using Fiap03.DAL.Repositories.Interfaces;
+using Fiap03.DAL.Repositories;
 
 namespace Fiap03.Web.MVC.Controllers
 {
     public class MarcaController : Controller
     {
+        private IMarcaRepository _marcaRepository = new MarcaRepository();
+
+        [HttpGet]
+        public ActionResult Detalhar(int id)
+        {
+            //pesquisa a marca com os carros no BD
+            var mod = _marcaRepository.BuscarComCarros(id);
+            //transformar o mod em model
+
+        }
+
         [HttpGet]
         public ActionResult Cadastrar()
         {
@@ -53,7 +66,7 @@ namespace Fiap03.Web.MVC.Controllers
                 return View(marca);
             }
         }
-        
+
 
         [HttpPost]
         public ActionResult Editar(MarcaModel marca)

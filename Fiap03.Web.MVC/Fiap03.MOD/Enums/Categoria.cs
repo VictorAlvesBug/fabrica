@@ -1,4 +1,4 @@
-﻿namespace Fiap03.Web.MVC.Models
+﻿namespace Fiap03.MOD.Enums
 {
     public enum Categoria
     {

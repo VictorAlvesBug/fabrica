@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Fiap03.MOD;
+using Fiap03.MOD.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +26,25 @@ namespace Fiap03.Web.MVC.Models
         //FK         
         public DocumentoModel Documento { get; set; }
         public int Renavam { get; set; }
+
+        //Construtores
+        public CarroModel(CarroMOD mod)
+        {
+            Id = mod.Id;
+            MarcaId = mod.MarcaId;
+            Ano = mod.Ano;
+            Combustivel = mod.Combustivel;
+            Esportivo = mod.Esportivo;
+            Placa = mod.Placa;
+            Descricao = mod.Descricao;
+            Renavam = mod.Renavam;
+            Documento = new DocumentoModel(mod.Documento);
+        }
+
+        public CarroModel()
+        {
+
+        }
         
     }
 }

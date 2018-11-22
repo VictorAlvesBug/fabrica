@@ -1,0 +1,40 @@
+﻿@model Fiap03.Web.MVC.Models.MarcaModel
+
+@{
+    ViewBag.Title = "Detalhar";
+}
+
+<h1>@Model.Nome</h1>
+<hr />
+<div class="row">
+    <div class="col">
+        <h2>Detalhes</h2>
+        <p>Nome - @Model.Nome</p>
+        <p>CNPJ - @Model.Cnpj</p>
+        <p>Data de Criação - @Model.DataCriacao</p>
+    </div>
+    <div class="col">
+        <h2>Carros Registrados</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ano</th>                    
+                    <th>Esportivo</th>
+                    <th>Placa</th>
+                    <th>Combustível</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var carro in Model.Carros)
+                {
+                    <tr>
+                        <td>@carro.Ano</td>
+                        <td>@carro.Esportivo</td>
+                        <td>@carro.Placa</td>
+                        <td>@carro.Combustivel</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

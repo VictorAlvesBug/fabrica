@@ -154,11 +154,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CarroModel.cs" />
-    <Compile Include="Models\Categoria.cs" />
-    <Compile Include="Models\Combustivel.cs" />
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\MarcaModel.cs" />
-    <Compile Include="MOD\CarroMOD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -183,6 +180,7 @@
     <Content Include="Views\Marca\Listar.cshtml" />
     <Content Include="Views\Marca\Editar.cshtml" />
     <Content Include="Views\Carro\_form.cshtml" />
+    <Content Include="Views\Marca\Detalhar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -198,6 +196,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fiap03.DAL\Fiap03.DAL.csproj">
+      <Project>{0ff8f6ff-c3b9-4169-b0c2-69772d88ea3c}</Project>
+      <Name>Fiap03.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fiap03.MOD\Fiap03.MOD.csproj">
+      <Project>{5f1b8dcc-e804-4176-a014-0b3b21a6f4b2}</Project>
+      <Name>Fiap03.MOD</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -9,6 +9,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Transactions;
+using Fiap03.DAL.ConnectionFactory;
 
 namespace Fiap03.Web.MVC.Controllers
 {
@@ -27,11 +28,15 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Pesquisar(int ano)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DbCarros"].ConnectionString))
+            using (IDbConnection db = ConnectionFactory.GetConnection())
             {
                 //Pesquisa no banco de dados
-                var sql = "SELECT * FROM Carro WHERE Ano = @Ano or 0 = @Ano";
-                var lista = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
+                var sql = @"SELECT * FROM Carro AS c INNER JOIN 
+                           Documento AS d ON c.Renavam = d.Renavam WHERE c.Ano = @Ano or 0 = @Ano";
+                var lista = db.Query<CarroModel,DocumentoModel,CarroModel>
+                    (sql, (carro, doc) => { carro.Documento = doc; return carro; },
+                        new { Ano = ano },
+                        splitOn: "Renavam, Renavam").ToList();
                 //Retornar para a página de Listar enviando a lista de carros
                 return View("Listar", lista);
             }
@@ -41,11 +46,14 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Editar(int id)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
+            using (IDbConnection db = ConnectionFactory.GetConnection())
             {
                 //Buscar o carro no banco pelo id
-                var sql = "SELECT * FROM Carro where Id = @Id";
-                var carro = db.Query<CarroModel>(sql, new { Id = id }).FirstOrDefault();
+                var sql = @"SELECT * FROM Carro AS c INNER JOIN 
+                           Documento AS d ON c.Renavam = d.Renavam where c.Id = @Id";
+                var carro = db.Query<CarroModel,DocumentoModel,CarroModel>(sql, 
+                    (c,doc)=> { c.Documento = doc; return c; },
+                    new { Id = id }, splitOn: "Renavam,Renavam").FirstOrDefault();
                 CarregarMarcas();
                 //Mandar o carro para a view
                 return View(carro);
@@ -56,8 +64,7 @@ namespace Fiap03.Web.MVC.Controllers
         public ActionResult Listar()
         {
             //envia a lista de carros para a view
-            using (IDbConnection connection = new SqlConnection(
-                ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
+            using (IDbConnection connection = ConnectionFactory.GetConnection())
             {
                 var sql = @"SELECT * FROM Carro AS c INNER JOIN 
                            Documento AS d ON c.Renavam = d.Renavam";
@@ -76,22 +83,34 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Editar(CarroModel model)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
+            using (IDbConnection db = ConnectionFactory.GetConnection())
             {
-                var sql = @"UPDATE Carro SET MarcaId = @MarcaId, 
+                using (var txtScope = new TransactionScope())
+                {
+                    var sqlDoc = @"UPDATE Documento SET Categoria = @Categoria,
+                    DataFabricacao = @DataFabricacao WHERE Renavam = @Renavam";
+
+                    db.Execute(sqlDoc, model.Documento);
+
+                    var sql = @"UPDATE Carro SET MarcaId = @MarcaId, 
                     Ano = @Ano, Esportivo = @Esportivo, Placa = @Placa, 
                     Combustivel = @Combustivel, Descricao = @Descricao 
                     WHERE Id = @Id";
-                db.Execute(sql, model);
-                TempData["msg"] = "Atualizado com sucesso!";
-                return RedirectToAction("Listar");
+
+                    db.Execute(sql, model);
+
+                    txtScope.Complete();
+
+                    TempData["msg"] = "Atualizado com sucesso!";
+                    return RedirectToAction("Listar");
+                }
             }
         }
 
         [HttpPost]
         public ActionResult Excluir(int codigo)
         {
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
+            using (IDbConnection db = ConnectionFactory.GetConnection())
             {
                 db.Execute("DELETE FROM Carro WHERE Id = @Id",
                                             new { id = codigo });
@@ -103,8 +122,7 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
-            using (IDbConnection db = new SqlConnection(
-                ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
+            using (IDbConnection db = ConnectionFactory.GetConnection())
             {
                 using (var txtScope = new TransactionScope())
                 {
@@ -141,7 +159,7 @@ namespace Fiap03.Web.MVC.Controllers
         private void CarregarMarcas()
         {
             //Listar as marcas do banco de dados
-            using (IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["DBCarros"].ConnectionString))
+            using (IDbConnection db = ConnectionFactory.GetConnection())
             {
                 var sql = "SELECT * FROM Marca ORDER BY Nome";
                 var lista = db.Query<MarcaModel>(sql).ToList();
