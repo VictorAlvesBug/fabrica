@@ -29,6 +29,7 @@
                 <td>
                     @Html.ActionLink("Editar", "Editar", new { id = marca.Id }, new { @class = "btn btn-outline-primary btn-sm" })
                     @Html.ActionLink("Carros", "Detalhar", new { id = marca.Id }, new { @class = "btn btn-outline-info btn-sm" })
+                    @Html.ActionLink("Modelos", "Index", "Modelo", new { id = marca.Id}, new { @class = "btn btn-outline-warning btn-sm"})
                 </td>
             </tr>
         }

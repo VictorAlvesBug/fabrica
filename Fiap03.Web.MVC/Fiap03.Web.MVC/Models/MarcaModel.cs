@@ -25,13 +25,16 @@ namespace Fiap03.Web.MVC.Models
             Id = mod.Id;
             DataCriacao = mod.DataCriacao;
             Cnpj = mod.Cnpj;
-            //instancia a lista de carroModel
-            var lista = new List<CarroModel>();
-            //Popula a lista com os carros
-            mod.Carros.ToList().ForEach(c => 
-                 lista.Add(new CarroModel(c)));
-            //Associa a lista na propriedade
-            Carros = lista;
+            if (mod.Carros != null)
+            {
+                //instancia a lista de carroModel
+                var lista = new List<CarroModel>();
+                //Popula a lista com os carros
+                mod.Carros.ToList().ForEach(c =>
+                     lista.Add(new CarroModel(c)));
+                //Associa a lista na propriedade
+                Carros = lista;
+            }
         }
 
         public MarcaModel() { }

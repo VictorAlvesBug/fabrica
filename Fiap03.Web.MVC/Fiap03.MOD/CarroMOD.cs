@@ -13,7 +13,7 @@ namespace Fiap03.MOD
         public string Placa { get; set; }
         public int Ano { get; set; }
         public bool Esportivo { get; set; }
-        public Combustivel Combustivel { get; set; }
+        public Combustivel? Combustivel { get; set; }
         public string Descricao { get; set; }
         //FK
         public int Renavam { get; set; }

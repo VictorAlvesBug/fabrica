@@ -13,7 +13,7 @@ namespace Fiap03.Web.MVC.Models
 
         [Display(Name = "Data de Fabricação")]
         public DateTime DataFabricacao { get; set; }
-        
+
         //Construtor
         public DocumentoModel(DocumentoMOD mod)
         {

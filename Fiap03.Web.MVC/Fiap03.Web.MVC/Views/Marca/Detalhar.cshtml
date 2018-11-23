@@ -3,7 +3,6 @@
 @{
     ViewBag.Title = "Detalhar";
 }
-<<<<<<< HEAD
 
 <h1>@Model.Nome</h1>
 <hr />
@@ -19,46 +18,13 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Ano</th>                    
-                    <th>Esportivo</th>
-                    <th>Placa</th>
-=======
-<h1>Detalhes</h1>
-<div class="row">
-    <div class="col">
-        <h2>@Model.Nome</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>CNPJ</th>
-                    <th>Data Criação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>@Model.Id</td>
-                    <td>@Model.Cnpj</td>
-                    <td>@Model.DataCriacao.ToShortDateString()</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col">
-        <h2>Carros</h2>
-        <table class="table">
-            <thead>
-                <tr>
                     <th>Ano</th>
                     <th>Esportivo</th>
                     <th>Placa</th>
-                    <th>Descrição</th>
->>>>>>> 2a81f5c163ed73add6bd2632c331321da034bdb8
                     <th>Combustível</th>
                 </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD
                 @foreach (var carro in Model.Carros)
                 {
                     <tr>
@@ -66,24 +32,11 @@
                         <td>@carro.Esportivo</td>
                         <td>@carro.Placa</td>
                         <td>@carro.Combustivel</td>
-=======
-                @foreach (var Carro in Model.Carros)
-                {
-                    <tr>
-                        <td>@Carro.Ano</td>
-                        <td>@Carro.Esportivo</td>
-                        <td>@Carro.Placa</td>
-                        <td>@Carro.Descricao</td>
-                        <td>@Carro.Combustivel</td>
->>>>>>> 2a81f5c163ed73add6bd2632c331321da034bdb8
                     </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
-<<<<<<< HEAD
-=======
 
 
->>>>>>> 2a81f5c163ed73add6bd2632c331321da034bdb8

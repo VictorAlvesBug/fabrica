@@ -150,12 +150,14 @@
     <Compile Include="Controllers\CarroController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MarcaController.cs" />
+    <Compile Include="Controllers\ModeloController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CarroModel.cs" />
     <Compile Include="Models\DocumentoModel.cs" />
     <Compile Include="Models\MarcaModel.cs" />
+    <Compile Include="Models\ModeloModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +183,7 @@
     <Content Include="Views\Marca\Editar.cshtml" />
     <Content Include="Views\Carro\_form.cshtml" />
     <Content Include="Views\Marca\Detalhar.cshtml" />
+    <Content Include="Views\Modelo\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

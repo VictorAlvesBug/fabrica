@@ -38,7 +38,8 @@ namespace Fiap03.Web.MVC.Models
             Placa = mod.Placa;
             Descricao = mod.Descricao;
             Renavam = mod.Renavam;
-            Documento = new DocumentoModel(mod.Documento);
+            if (mod.Documento != null)
+                Documento = new DocumentoModel(mod.Documento);
         }
 
         public CarroModel()

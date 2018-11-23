@@ -1,0 +1,32 @@
+﻿@model Fiap03.Web.MVC.Models.ModeloModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Modelos</h2>
+<hr />
+<div class="row">
+    <div class="col">
+        <h3>Cadastro</h3>
+        @using (Html.BeginForm())
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Nome)
+                @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+            </div>
+            @Fabrica.Botao("Cadastrar")
+        }
+    </div>
+    <div class="col">
+        <h3>Modelos</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+

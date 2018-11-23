@@ -10,11 +10,16 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Transactions;
 using Fiap03.DAL.ConnectionFactories;
+using Fiap03.DAL.Repositories.Interfaces;
+using Fiap03.DAL.Repositories;
+using Fiap03.MOD;
 
 namespace Fiap03.Web.MVC.Controllers
 {
     public class CarroController : Controller
     {
+        private ICarroRepository _carroRepository = new CarroRepository();
+        private IMarcaRepository _marcaRepository = new MarcaRepository();
 
         #region GET
 
@@ -28,65 +33,38 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpGet]
         public ActionResult Pesquisar(int ano)
         {
-            using (IDbConnection db = ConnectionFactory.GetConnection())
-            {
-
-                //Pesquisa no banco de dados
-                var sql = @"SELECT * FROM Carro AS c INNER JOIN 
-                           Documento AS d ON c.Renavam = d.Renavam WHERE c.Ano = @Ano or 0 = @Ano";
-                var lista = db.Query<CarroModel,DocumentoModel,CarroModel>
-                    (sql, (carro, doc) => { carro.Documento = doc; return carro; },
-                        new { Ano = ano },
-                        splitOn: "Renavam, Renavam").ToList();
-                //Retornar para a página de Listar enviando a lista de carros
-
-                return View("Listar", lista);
-
-                ////Pesquisa no banco de dados
-                //var sql = "SELECT * FROM Carro WHERE Ano = @Ano or 0 = @Ano";
-                //var lista = db.Query<CarroModel>(sql, new { Ano = ano }).ToList();
-                ////Retornar para a página de Listar enviando a lista de carros
-                //return View("Listar", lista);
-            }
+            //Pesquisa os carros no BD
+            var listaMod = _carroRepository.BuscarPorAno(ano);
+            //Transforma a lista de MOD em Model
+            var listaModel = listaMod.Select(c => new CarroModel(c)).ToList();
+            //Retorna para a página Listar com a lista de model
+            return View("Listar", listaModel);
         }
 
         //Abre a tela de edição com o formulário preenchido
         [HttpGet]
         public ActionResult Editar(int id)
         {
-            using (IDbConnection db = ConnectionFactory.GetConnection())
-            {
-                //Buscar o carro no banco pelo id
-                var sql = @"SELECT * FROM Carro AS c INNER JOIN 
-                           Documento AS d ON c.Renavam = d.Renavam where c.Id = @Id";
-                var carro = db.Query<CarroModel,DocumentoModel,CarroModel>(sql, 
-                    (c,doc)=> { c.Documento = doc; return c; },
-                    new { Id = id }, splitOn: "Renavam,Renavam").FirstOrDefault();
-
-
-                ////Buscar o carro no banco pelo id
-                //var sql = "SELECT * FROM Carro where Id = @Id";
-                //var carro = db.Query<CarroModel>(sql, new { Id = id }).FirstOrDefault();
-                //CarregarMarcas();
-                ////Mandar o carro para a view
-               return View(carro);
-            }
+            //Pesquisa no banco de dados pelo ID
+            var mod = _carroRepository.Buscar(id);
+            //Transforma o MOD em MOdel
+            var model = new CarroModel(mod);
+            //Carregar as marcas para o select
+            CarregarMarcas();
+            //Retorna para a página com o model
+            return View(model);
         }
 
         [HttpGet]
         public ActionResult Listar()
         {
-            //envia a lista de carros para a view
-            using (IDbConnection connection = ConnectionFactory.GetConnection())
-            {
-                var sql = @"SELECT * FROM Carro AS c INNER JOIN 
-                           Documento AS d ON c.Renavam = d.Renavam";
-                var lista = connection
-                    .Query<CarroModel, DocumentoModel, CarroModel>(sql,
-                        (carro, doc) => { carro.Documento = doc; return carro; },
-                        splitOn: "Renavam, Renavam").ToList();
-                return View(lista);
-            }
+            //Buscar no banco de dados a lista de mod
+            var listaMod = _carroRepository.Listar();
+            //transforma a lista de mod em model
+            var listaModel = new List<CarroModel>();
+            listaMod.ToList().ForEach(c => listaModel.Add(new CarroModel(c)));
+            //retorna para a página com a lista de model
+            return View(listaModel);
         }
 
         #endregion
@@ -96,74 +74,28 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Editar(CarroModel model)
         {
-            using (IDbConnection db = ConnectionFactory.GetConnection())
-            {
-                using (var txtScope = new TransactionScope())
-                {
-
-                    //Cadastra o documento
-                    var sqlDoc = @"UPDATE Documento SET DataFabricacao = @DataFabricacao, Categoria = @Categoria
-                        WHERE Renavam = @Renavam";
-
-                    db.Execute(sqlDoc, model.Documento);
-
-                    //Cadastra o carro
-                    var sql = @"UPDATE Carro SET MarcaId = @MarcaId, 
-                        Ano = @Ano, Esportivo = @Esportivo, Placa = @Placa, 
-                        Combustivel = @Combustivel, Descricao = @Descricao 
-                        WHERE Id = @Id";
-
-                    db.Execute(sql, model);
-
-                    //Completa a transação
-                    txtScope.Complete();
-
-                    TempData["msg"] = "Atualizado com sucesso!";
-                    return RedirectToAction("Listar");
-                }
-            }
+            //transforma o model em mod
+            CarroMOD mod = ConverterModelParaMOD(model);
+            //chama o repository para editar
+            _carroRepository.Editar(mod);
+            TempData["msg"] = "Atualizado com sucesso!";
+            return RedirectToAction("Listar");
         }
+
 
         [HttpPost]
         public ActionResult Excluir(int codigo)
         {
-            using (IDbConnection db = ConnectionFactory.GetConnection())
-            {
-                db.Execute("DELETE FROM Carro WHERE Id = @Id",
-                                            new { id = codigo });
-                TempData["msg"] = "Carro excluído";
-                return RedirectToAction("Listar");
-            }
+            _carroRepository.Excluir(codigo);
+            TempData["msg"] = "Carro excluído";
+            return RedirectToAction("Listar");
         }
 
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
-            using (IDbConnection db = ConnectionFactory.GetConnection())
-            {
-                using (var txtScope = new TransactionScope())
-                {
-                    //Cadastra o documento
-                    var sqlDoc = @"INSERT INTO Documento (Renavam, DataFabricacao, 
-                        Categoria) VALUES (@Renavam, @DataFabricacao, @Categoria);";
-
-                    db.Execute(sqlDoc, carro.Documento);
-
-                    //Cadastra o carro
-                    var sql = @"INSERT INTO Carro (MarcaId, Ano, 
-                        Esportivo, Placa, Combustivel, Descricao, Renavam) 
-                        VALUES (@MarcaId, @Ano, @Esportivo, @Placa, @Combustivel,
-                        @Descricao, @Renavam); SELECT CAST(SCOPE_IDENTITY() as int);";
-
-                    carro.Renavam = carro.Documento.Renavam;
-                    int codigo = db.Query<int>(sql, carro).Single();
-
-                    //Completa a transação
-                    txtScope.Complete();
-                }
-            }
-
-            // _carros.Add(carro); //adiciona o carro na lista
+            var mod = ConverterModelParaMOD(carro);
+            _carroRepository.Cadastrar(mod);
             TempData["mensagem"] = "Carro registrado!";
             //Redireciona para uma URL, cria uma segunda request
             //para abrir a página de resposta
@@ -173,15 +105,32 @@ namespace Fiap03.Web.MVC.Controllers
 
         #endregion
 
+        private static CarroMOD ConverterModelParaMOD(CarroModel model)
+        {
+            return new CarroMOD()
+            {
+                Id = model.Id,
+                Ano = model.Ano,
+                Combustivel = model.Combustivel,
+                Descricao = model.Descricao,
+                Esportivo = model.Esportivo,
+                MarcaId = model.MarcaId,
+                Placa = model.Placa,
+                Renavam = model.Renavam,
+                Documento = new DocumentoMOD()
+                {
+                    Categoria = model.Documento.Categoria,
+                    Renavam = model.Documento.Renavam,
+                    DataFabricacao = model.Documento.DataFabricacao
+                }
+            };
+        }
+
         private void CarregarMarcas()
         {
             //Listar as marcas do banco de dados
-            using (IDbConnection db = ConnectionFactory.GetConnection())
-            {
-                var sql = "SELECT * FROM Marca ORDER BY Nome";
-                var lista = db.Query<MarcaModel>(sql).ToList();
-                ViewBag.marcas = new SelectList(lista, "Id", "Nome");
-            }
+            var lista = _marcaRepository.Listar();
+            ViewBag.marcas = new SelectList(lista, "Id", "Nome");
         }
 
     }
