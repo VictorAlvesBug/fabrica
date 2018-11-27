@@ -1,19 +1,22 @@
-﻿@model Fiap03.Web.MVC.Models.ModeloModel
+﻿@model Fiap03.Web.MVC.ViewModel.ModeloViewModel
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Modelos</h2>
+<h2>Modelos - @Model.NomeMarca</h2>
 <hr />
 <div class="row">
     <div class="col">
+        @Fabrica.Mensagem(TempData["msg"])            
         <h3>Cadastro</h3>
-        @using (Html.BeginForm())
+        @using (Html.BeginForm("Cadastrar","Modelo"))
         {
+            <!--marcaId-->
+            @Html.HiddenFor(c => c.Modelo.MarcaId)
             <div class="form-group">
-                @Html.LabelFor(m => m.Nome)
-                @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Modelo.Nome)
+                @Html.TextBoxFor(m => m.Modelo.Nome, new { @class = "form-control" })
             </div>
             @Fabrica.Botao("Cadastrar")
         }
@@ -26,6 +29,14 @@
                     <th>Nome</th>
                 </tr>
             </thead>
+            <tbody>
+                @foreach (var item in Model.Lista)
+                {
+                    <tr>
+                        <td>@item.Nome</td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>

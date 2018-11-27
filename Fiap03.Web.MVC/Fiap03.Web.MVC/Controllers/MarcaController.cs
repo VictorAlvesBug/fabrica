@@ -37,6 +37,12 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(MarcaModel marca)
         {
+            //Valida os campos do formulário
+            if (!ModelState.IsValid)
+            {
+                //Erro de validação, retorna para a página
+                return View(marca); 
+            }
             //Transformar de model para mod
             var mod = new MarcaMOD()
             {

@@ -50,7 +50,9 @@
     <Compile Include="Repositories\Interfaces\ICarroRepository.cs" />
     <Compile Include="Repositories\Interfaces\IMarcaRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Interfaces\IModeloRepository.cs" />
     <Compile Include="Repositories\MarcaRepository.cs" />
+    <Compile Include="Repositories\ModeloRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fiap03.MOD\Fiap03.MOD.csproj">

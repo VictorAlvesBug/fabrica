@@ -16,13 +16,21 @@ namespace Fiap03.DAL.Repositories
         {
             using(var db = ConnectionFactory.GetConnection())
             {
-                
+                var sql = @"INSERT INTO Modelo (Nome, MarcaId) VALUES (@Nome, @MarcaID);
+                    SELECT CAST (SCOPE_IDENTITY() AS INT);";
+                int id = db.Query<int>(sql, mod).Single();
+                mod.Id = id;
             }
         }
 
-        public IList<ModeloMOD> Listar()
+        public IList<ModeloMOD> Listar(int marcaId)
         {
-            throw new NotImplementedException();
+            using(var db = ConnectionFactory.GetConnection())
+            {
+                var sql = "SELECT * FROM Modelo WHERE MarcaId = @Id";
+                var lista = db.Query<ModeloMOD>(sql, new { Id = marcaId }).ToList();
+                return lista;
+            }
         }
     }
 }

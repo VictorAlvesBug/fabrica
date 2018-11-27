@@ -45,6 +45,7 @@
     <Compile Include="Enums\Categoria.cs" />
     <Compile Include="Enums\Combustivel.cs" />
     <Compile Include="MarcaMOD.cs" />
+    <Compile Include="ModeloMOD.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

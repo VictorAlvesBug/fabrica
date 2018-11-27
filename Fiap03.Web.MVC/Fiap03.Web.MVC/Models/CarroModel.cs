@@ -12,9 +12,16 @@ namespace Fiap03.Web.MVC.Models
     {
         public int Id { get; set; }
         //FK
+        [Required]
+        [Display(Name = "Marca")]
         public int MarcaId { get; set; }
+
+        [Range(minimum:1950, maximum: 3000)]
         public int Ano { get; set; }
+
         public bool Esportivo { get; set; }
+
+        [Required, StringLength(maximumLength:8,MinimumLength = 8)]
         public string Placa { get; set; }
 
         [Display(Name = "Descrição")]

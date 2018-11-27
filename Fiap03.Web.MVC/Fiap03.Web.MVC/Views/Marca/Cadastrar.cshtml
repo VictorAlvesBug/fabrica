@@ -10,13 +10,16 @@
 
 @using (Html.BeginForm())
 {
+    @Html.ValidationSummary()
     <div class="form-group">
         @Html.LabelFor(m => m.Nome)
         @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Nome)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Cnpj)
         @Html.TextBoxFor(m => m.Cnpj, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Cnpj)
     </div>
     @Fabrica.Botao("Cadastrar")
 }

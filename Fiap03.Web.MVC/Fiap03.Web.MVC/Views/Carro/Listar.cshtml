@@ -4,21 +4,20 @@
     ViewBag.Title = "Listar";
 }
 
-
 @Fabrica.Mensagem(TempData["msg"])
 
-<h2>Filtro</h2>
-@using (Html.BeginForm("Pesquisar","Carro",FormMethod.Get))
+<h2 id="titulo">Filtro</h2>
+@using (Html.BeginForm("Pesquisar", "Carro", FormMethod.Get, new { id = "formulario" }))
 {
     <div class="row">
         <div class="col">
-            <select name="ano" class="form-control">
+            <select onchange="mudouOpcao()" name="ano" class="form-control">
                 <option value="0">Selecione</option>
                 @for (var i = DateTime.Now.Year + 2; i >= 1980; i--)
                 {
                     <option>@i</option>
                 }
-            </select>       
+            </select>
         </div>
         <div class="col">
             <button class="btn btn-success" type="submit">Buscar</button>
@@ -61,7 +60,7 @@
                     <button onclick="codigoExcluir.value = @carro.Id" type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
                         Excluir
                     </button>
-                    @Html.ActionLink("Editar","Editar", new { id = carro.Id }, new { @class = "btn btn-outline-dark btn-sm" })
+                    @Html.ActionLink("Editar", "Editar", new { id = carro.Id }, new { @class = "btn btn-outline-dark btn-sm" })
                 </td>
             </tr>
         }
@@ -81,12 +80,12 @@
             <div class="modal-body">
                 <p>Deseja realmente excluir?</p>
             </div>
-            <div class="modal-footer">                
+            <div class="modal-footer">
                 <!--formulário-- URL: /Carro/Excluir - POST> -->
-                @using (Html.BeginForm("Excluir","Carro"))
+                @using (Html.BeginForm("Excluir", "Carro"))
                 {
                     <!-- Campo para o ID -->
-                    <input type="hidden" name="codigo" id="codigoExcluir"/>
+                    <input type="hidden" name="codigo" id="codigoExcluir" />
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Não</button>
                     <button type="submit" class="btn btn-danger">Sim</button>
                 }
@@ -94,3 +93,15 @@
         </div>
     </div>
 </div>
+
+<script>
+    function mudouOpcao() {
+        //recuperar os elementos do HTML
+        //document.getElementById("titulo").innerHTML = "FIAP";
+        titulo.innerHTML = "FIAP";
+        titulo.style.backgroundColor = "#000000";
+        titulo.style.color = "yellow";
+        formulario.submit();
+        //alert("OK");
+    }
+</script>

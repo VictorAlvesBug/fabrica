@@ -74,6 +74,10 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Editar(CarroModel model)
         {
+            if (!ModelState.IsValid)
+            {                
+                return Editar(model.Id);
+            }
             //transforma o model em mod
             CarroMOD mod = ConverterModelParaMOD(model);
             //chama o repository para editar
@@ -81,7 +85,6 @@ namespace Fiap03.Web.MVC.Controllers
             TempData["msg"] = "Atualizado com sucesso!";
             return RedirectToAction("Listar");
         }
-
 
         [HttpPost]
         public ActionResult Excluir(int codigo)
@@ -94,6 +97,10 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
+            if (!ModelState.IsValid)
+            {
+                return Cadastrar();
+            }
             var mod = ConverterModelParaMOD(carro);
             _carroRepository.Cadastrar(mod);
             TempData["mensagem"] = "Carro registrado!";
