@@ -35,3 +35,22 @@
         }
     </tbody>
 </table>
+
+
+@section scripts{
+
+    <script>
+        $().ready(function () {            
+            $('.btn').css('visibility', 'hidden'); //esconde os botões mantendo a posição
+            $('tr').hover(
+                function () {
+                    $(this).find('.btn').css('visibility', 'visible');
+                },
+                function () {
+                    $(this).find('.btn').css('visibility', 'hidden');
+                }
+            );
+        });
+    </script>
+    
+}

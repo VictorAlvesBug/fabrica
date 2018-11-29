@@ -94,14 +94,26 @@
     </div>
 </div>
 
-<script>
-    function mudouOpcao() {
-        //recuperar os elementos do HTML
-        //document.getElementById("titulo").innerHTML = "FIAP";
-        titulo.innerHTML = "FIAP";
-        titulo.style.backgroundColor = "#000000";
-        titulo.style.color = "yellow";
-        formulario.submit();
-        //alert("OK");
-    }
-</script>
+@section scripts{
+    <script>
+        $().ready(function () {
+            //seleciona a linha e define o evento hover (dentro, fora)
+            $('tr').hover(
+                function () {                    
+                    $(this).find('td').css('color', '#FF007F');
+                },
+                function () {                    
+                    $(this).find('td').css('color', '');
+                });
+        });
+        function mudouOpcao() {
+            //recuperar os elementos do HTML
+            //document.getElementById("titulo").innerHTML = "FIAP";
+            titulo.innerHTML = "FIAP";
+            titulo.style.backgroundColor = "#000000";
+            titulo.style.color = "yellow";
+            formulario.submit();
+            //alert("OK");
+        }
+    </script>
+}

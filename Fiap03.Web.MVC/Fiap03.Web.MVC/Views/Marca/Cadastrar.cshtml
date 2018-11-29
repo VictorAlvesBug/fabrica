@@ -24,3 +24,16 @@
     @Fabrica.Botao("Cadastrar")
 }
 
+@section scripts
+{
+    <script>
+        $().ready(function () {
+            $("#Cnpj").inputmask('99.999.999/9999-99');
+
+            //Quando o campo perde o foco
+            $('#Nome').blur(function () {
+                alert($('#Nome').val()); //recuperar o valor do campo
+            });
+        });
+    </script>
+}

@@ -25,5 +25,29 @@
 }
 
 @section scripts{
-    <p>Exemplo de Section</p>
+    
+    <script>
+        $(document).ready(function(){
+
+            $("#Placa").inputmask('aaa-9999');
+
+            //Datepicker no campo de data 
+            $('#Documento_DataFabricacao').datepicker();
+
+            //Selecionar o botão e esconder
+            $('.btn').hide();
+
+            //Quando o select de categoria for modificado, exibir os botões
+            //selecionar o select -> dar um evento
+            //$('select[name=Documento_Categoria]')
+            $('#Documento_Categoria').change(function() {
+                if ($(this).val() != "") {
+                    $('.btn').fadeIn(); //exibe
+                } else {
+                    $('.btn').fadeOut(); //esconde
+                }
+            });
+
+        });
+    </script>
 }
