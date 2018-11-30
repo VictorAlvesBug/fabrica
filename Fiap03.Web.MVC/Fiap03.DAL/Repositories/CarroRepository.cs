@@ -117,5 +117,17 @@ namespace Fiap03.DAL.Repositories
                 return lista;
             }
         }
+
+        public bool ValidarPlaca(string placa)
+        {
+            //true -> não encontra a placa no DB
+            //false -> a placa existe no banco de dados
+            using (var db = ConnectionFactory.GetConnection())
+            {
+                var sql = "SELECT COUNT(*) FROM Carro WHERE Placa = @Placa";
+                var retorno = db.Query<int>(sql, new { Placa = placa }).Single();
+                return retorno == 0;
+            }
+        }
     }
 }

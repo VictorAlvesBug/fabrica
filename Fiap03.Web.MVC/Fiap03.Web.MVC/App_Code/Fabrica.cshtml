@@ -1,11 +1,11 @@
 ﻿@helper Botao(string texto)
 {
-    <button type="submit"  class="btn btn-primary">@texto</button>
+    <button type="submit" id="@texto" class="btn btn-primary">@texto</button>
 }
 
 @helper Botao(string texto, string classe)
 {
-    <button type="submit" class="@classe">@texto</button>
+    <button type="submit" id="@texto" class="@classe">@texto</button>
 }
 
 @helper Mensagem(object msg)

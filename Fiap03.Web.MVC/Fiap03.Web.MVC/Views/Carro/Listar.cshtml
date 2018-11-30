@@ -7,11 +7,16 @@
 @Fabrica.Mensagem(TempData["msg"])
 
 <h2 id="titulo">Filtro</h2>
-@using (Html.BeginForm("Pesquisar", "Carro", FormMethod.Get, new { id = "formulario" }))
+@using (Ajax.BeginForm("Pesquisar", null , new AjaxOptions
+    {
+        HttpMethod = "Get",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "tabela-corpo"
+    }, new { id = "formulario" }))
 {
     <div class="row">
         <div class="col">
-            <select onchange="mudouOpcao()" name="ano" class="form-control">
+            <select name="ano" class="form-control">
                 <option value="0">Selecione</option>
                 @for (var i = DateTime.Now.Year + 2; i >= 1980; i--)
                 {
@@ -42,28 +47,8 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var carro in Model)
-        {
-            <tr>
-                <td>@carro.MarcaId</td>
-                <td>@carro.Ano</td>
-                <td>@carro.Esportivo</td>
-                <td>@carro.Placa</td>
-                <td>@carro.Descricao</td>
-                <td>@carro.Combustivel</td>
-                <td>@carro.Documento.DataFabricacao.ToShortDateString()</td>
-                <td>@carro.Documento.Categoria</td>
-                <td>@carro.Documento.Renavam</td>
-                <td>
-                    <!-- Button trigger modal -->
-                    <button onclick="codigoExcluir.value = @carro.Id" type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
-                        Excluir
-                    </button>
-                    @Html.ActionLink("Editar", "Editar", new { id = carro.Id }, new { @class = "btn btn-outline-dark btn-sm" })
-                </td>
-            </tr>
-        }
+    <tbody id="tabela-corpo">
+       @Html.Partial("_Lista", Model)
     </tbody>
 </table>
 
@@ -99,10 +84,10 @@
         $().ready(function () {
             //seleciona a linha e define o evento hover (dentro, fora)
             $('tr').hover(
-                function () {                    
+                function () {
                     $(this).find('td').css('color', '#FF007F');
                 },
-                function () {                    
+                function () {
                     $(this).find('td').css('color', '');
                 });
         });

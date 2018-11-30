@@ -20,8 +20,25 @@ namespace Fiap03.Web.MVC.Controllers
     {
         private ICarroRepository _carroRepository = new CarroRepository();
         private IMarcaRepository _marcaRepository = new MarcaRepository();
+        private IModeloRepository _modeloRepository = new ModeloRepository();
 
         #region GET
+        [HttpGet]
+        public ActionResult BuscarModelos(int marcaId)
+        {
+            //Busca os modelos pelo id da marca
+            var listaMod = _modeloRepository.Listar(marcaId);
+            //var listaModel = listaMod.Select(m => new ModeloModel(m)).ToList();
+            //retorna o JSON array com a lista de modelos
+            return Json(listaMod, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult ValidarPlaca(string placa)
+        {            
+            var ok = _carroRepository.ValidarPlaca(placa);
+            return Json(new { valido = ok } , JsonRequestBehavior.AllowGet);
+        }
 
         [HttpGet]
         public ActionResult Cadastrar()
@@ -38,7 +55,7 @@ namespace Fiap03.Web.MVC.Controllers
             //Transforma a lista de MOD em Model
             var listaModel = listaMod.Select(c => new CarroModel(c)).ToList();
             //Retorna para a página Listar com a lista de model
-            return View("Listar", listaModel);
+            return PartialView("_Lista", listaModel);
         }
 
         //Abre a tela de edição com o formulário preenchido
@@ -97,6 +114,10 @@ namespace Fiap03.Web.MVC.Controllers
         [HttpPost]
         public ActionResult Cadastrar(CarroModel carro)
         {
+            if (!_carroRepository.ValidarPlaca(carro.Placa))
+            {
+                ModelState.AddModelError("Placa", new Exception("Placa já existente"));
+            }
             if (!ModelState.IsValid)
             {
                 return Cadastrar();

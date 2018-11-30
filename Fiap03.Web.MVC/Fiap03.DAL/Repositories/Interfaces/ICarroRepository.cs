@@ -9,6 +9,7 @@ namespace Fiap03.DAL.Repositories.Interfaces
 {
     public interface ICarroRepository
     {
+        bool ValidarPlaca(string placa);
         void Cadastrar(CarroMOD mod);
         void Editar(CarroMOD mod);
         IList<CarroMOD> Listar();

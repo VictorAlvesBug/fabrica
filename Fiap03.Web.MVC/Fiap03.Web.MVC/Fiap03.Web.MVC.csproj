@@ -252,9 +252,10 @@
     <Content Include="Views\Marca\Cadastrar.cshtml" />
     <Content Include="Views\Marca\Listar.cshtml" />
     <Content Include="Views\Marca\Editar.cshtml" />
-    <Content Include="Views\Carro\_form.cshtml" />
+    <Content Include="Views\Carro\_Form.cshtml" />
     <Content Include="Views\Marca\Detalhar.cshtml" />
     <Content Include="Views\Modelo\Index.cshtml" />
+    <Content Include="Views\Carro\_Lista.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

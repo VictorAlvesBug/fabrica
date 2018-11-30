@@ -1,7 +1,7 @@
 ﻿@model Fiap03.Web.MVC.Models.CarroModel
 
 @{
-    ViewBag.Title = "Cadastrar";    
+    ViewBag.Title = "Cadastrar";
 }
 
 <h1>Cadastro de Carro</h1>
@@ -9,29 +9,50 @@
 @Fabrica.Mensagem(TempData["mensagem"])
 
 <!-- Comentário HTML -->
-
 @* Comentário C# *@
 
 @using (Html.BeginForm())
 {
-    @Html.Partial("_form")
+    @Html.Partial("_Form")
     <div class="row">
         <div class="col text-right">
             @Fabrica.Botao("Cadastrar")
             @Html.ActionLink("Cancelar","Listar",
                 null, new { @class = "btn btn-info"})
         </div>
-    </div> 
+    </div>
 }
 
 @section scripts{
-    
+
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
+
+            //Quando o valor do select da marca mudar...
+            $("#MarcaId").on("change", function () {
+                $.ajax({
+                    url: "/Carro/BuscarModelos",
+                    method: "Get",
+                    data: { marcaId: $(this).val() },
+                    success: function (data) {             
+                        $("#modelo").empty();
+                        $("#modelo").append($("<option>").text("Selecione"));
+                        $.each(data, function (index, modelo) {
+                            //Criar uma tag option e colocar o texto e valor
+                            var op = $("<option/>").text(modelo.Nome).val(modelo.Id);
+                            //Adicionar essa tag no select de modelos
+                            $("#modelo").append(op);
+                        });
+                    },
+                    error: function () {
+                        alert("Erro ao carregar os modelos");
+                    }
+                });
+            });
 
             $("#Placa").inputmask('aaa-9999');
 
-            //Datepicker no campo de data 
+            //Datepicker no campo de data
             $('#Documento_DataFabricacao').datepicker();
 
             //Selecionar o botão e esconder
@@ -40,7 +61,7 @@
             //Quando o select de categoria for modificado, exibir os botões
             //selecionar o select -> dar um evento
             //$('select[name=Documento_Categoria]')
-            $('#Documento_Categoria').change(function() {
+            $('#Documento_Categoria').change(function () {
                 if ($(this).val() != "") {
                     $('.btn').fadeIn(); //exibe
                 } else {
@@ -48,6 +69,29 @@
                 }
             });
 
+            //Validar se a placa já existe no banco de dados
+            $("#Placa").blur(function () {
+                $.ajax({
+                    url: "/Carro/ValidarPlaca",
+                    method: "GET",
+                    data: { placa: $("#Placa").val() },
+                    success: function (data) {
+                        //exibir a mensagem de erro na tela
+                        if (!data.valido) {
+                            $("[data-valmsg-for=Placa]")
+                                .text("Placa já existente")
+                                .addClass("field-validation-error");
+                        } else {
+                            $("[data-valmsg-for=Placa]")
+                                .text("")
+                                .addClass("field-validation-valid");
+                        }
+                    },
+                    error: function () {
+                        alert("Erro");
+                    }
+                });
+            });
         });
     </script>
 }
