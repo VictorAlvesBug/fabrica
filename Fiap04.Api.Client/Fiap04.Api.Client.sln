@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap04.Api.Client.UI", "Fiap04.Api.Client.UI\Fiap04.Api.Client.UI.csproj", "{744EB7F4-AD10-4533-8EAD-722600C4D0FC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{744EB7F4-AD10-4533-8EAD-722600C4D0FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{744EB7F4-AD10-4533-8EAD-722600C4D0FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{744EB7F4-AD10-4533-8EAD-722600C4D0FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{744EB7F4-AD10-4533-8EAD-722600C4D0FC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B444ED9D-8B7E-44D8-A598-07D66B993AD7}
+	EndGlobalSection
+EndGlobal

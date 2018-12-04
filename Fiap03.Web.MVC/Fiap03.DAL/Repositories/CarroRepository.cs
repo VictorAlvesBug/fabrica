@@ -62,6 +62,8 @@ namespace Fiap03.DAL.Repositories
                     mod.Renavam = mod.Documento.Renavam;
                     int codigo = db.Query<int>(sql, mod).Single();
 
+                    mod.Id = codigo; //atribui o código gerado no MOD
+
                     //Completa a transação
                     txtScope.Complete();
                 }
