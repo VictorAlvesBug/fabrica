@@ -50,10 +50,19 @@ namespace Fiap03.Web.MVC.Controllers
                 DataCriacao = marca.DataCriacao,
                 Nome = marca.Nome
             };
-            //Chamar o repository (cadastrar) para gravar no BD
-            _marcaRepository.Cadastrar(mod);
-            TempData["msg"] = "Marca registrada!";
-            return RedirectToAction("Cadastrar");
+
+            try
+            {
+                //Chamar o repository (cadastrar) para gravar no BD
+                _marcaRepository.Cadastrar(mod);
+                TempData["msg"] = "Marca registrada!";
+                return RedirectToAction("Cadastrar");
+            }
+            catch
+            {
+                TempData["msg"] = "Erro, por favor tente mais tarde";
+                return View();
+            }
         }
 
         [HttpGet]

@@ -35,9 +35,9 @@ namespace Fiap03.Web.MVC.Controllers
 
         [HttpGet]
         public ActionResult ValidarPlaca(string placa)
-        {            
+        {
             var ok = _carroRepository.ValidarPlaca(placa);
-            return Json(new { valido = ok } , JsonRequestBehavior.AllowGet);
+            return Json(new { valido = ok }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -92,7 +92,7 @@ namespace Fiap03.Web.MVC.Controllers
         public ActionResult Editar(CarroModel model)
         {
             if (!ModelState.IsValid)
-            {                
+            {
                 return Editar(model.Id);
             }
             //transforma o model em mod

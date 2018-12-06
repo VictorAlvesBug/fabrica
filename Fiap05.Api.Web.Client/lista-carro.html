@@ -1,0 +1,46 @@
+<html>
+<head>
+	<title>Lista de carros</title>
+</head>
+<body>
+	<h1>Lista de carros</h1>
+	<!-- Acessar o webservice e exibir todos os carros -->
+	
+	<table>
+		<thead>
+			<tr>
+				<th>Placa</th>
+				<th>Ano</th>
+				<th>Combustível</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+	<script src="jquery-3.0.0.min.js"></script>	
+	<script>
+		$().ready(function(){
+			<!-- Chama o webservice para recuperar os carros -->
+			$.ajax({
+				url : "http://localhost:3646/api/carro",
+				method: "get",
+				success : function(data){
+					<!-- Percorrer a lista -->
+					$.each(data, function(index,carro){
+						<!-- Criar uma linha da tabela -->
+						var linha = $("<tr>");
+						<!-- Criar as colunas, colocar o valor e adicionar na linha -->
+						var coluna1 = $("<td>").text(carro.Placa);
+						var coluna2 = $("<td>").text(carro.Ano);
+						var coluna3 = $("<td>").text(carro.Combustivel);
+						linha.append(coluna1);
+						linha.append(coluna2);
+						linha.append(coluna3);
+						<!-- Adicionar a linha na tabela -->
+						$("tbody").append(linha);
+					});
+				}
+			});
+		});
+	</script>
+</body>
+</html>

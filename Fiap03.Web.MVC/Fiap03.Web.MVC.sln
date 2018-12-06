@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap03.MOD", "Fiap03.MOD\Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap03.Web.API", "Fiap03.Web.API\Fiap03.Web.API.csproj", "{11286C31-1999-4F95-9F69-BAA91720C5E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fiap03.DAL.Test", "Fiap03.DAL.Test\Fiap03.DAL.Test.csproj", "{09CD9851-B3C6-446D-A518-5C7E29EB5108}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{11286C31-1999-4F95-9F69-BAA91720C5E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11286C31-1999-4F95-9F69-BAA91720C5E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11286C31-1999-4F95-9F69-BAA91720C5E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09CD9851-B3C6-446D-A518-5C7E29EB5108}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09CD9851-B3C6-446D-A518-5C7E29EB5108}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09CD9851-B3C6-446D-A518-5C7E29EB5108}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09CD9851-B3C6-446D-A518-5C7E29EB5108}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
