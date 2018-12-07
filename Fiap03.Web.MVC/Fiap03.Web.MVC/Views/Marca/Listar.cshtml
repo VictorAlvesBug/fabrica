@@ -41,7 +41,8 @@
 
     <script>
         $().ready(function () {            
-            $('.btn').css('visibility', 'hidden'); //esconde os botões mantendo a posição
+            //esconder os botões que estão dentro do tbody
+            $('tbody  .btn').css('visibility', 'hidden'); //esconde os botões mantendo a posição
             $('tr').hover(
                 function () {
                     $(this).find('.btn').css('visibility', 'visible');

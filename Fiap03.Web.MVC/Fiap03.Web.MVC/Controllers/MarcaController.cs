@@ -14,6 +14,7 @@ using Fiap03.MOD;
 
 namespace Fiap03.Web.MVC.Controllers
 {
+    [Authorize]
     public class MarcaController : Controller
     {
         private IMarcaRepository _marcaRepository = new MarcaRepository();
